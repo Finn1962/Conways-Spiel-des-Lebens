@@ -1,0 +1,11 @@
+.aktionsFlaeche{
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
