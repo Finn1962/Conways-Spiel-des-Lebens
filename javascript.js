@@ -46,21 +46,8 @@ document.addEventListener("click", function(event){
 ///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen
 const startButton = document.getElementById("startButton");
 startButton.addEventListener("click", ()=> {
-    let X_KoordinateZuPruefendeZelle = 0;
-
-    while (X_KoordinateZuPruefendeZelle != aktionsFlaecheBreite_X){
-        let Y_KoordinateZuPruefendeZelle = 0;
-        while (Y_KoordinateZuPruefendeZelle != aktionsFlaecheBreite_X){
-            prüfenVonZelen(X_KoordinateZuPruefendeZelle, Y_KoordinateZuPruefendeZelle)
-            Y_KoordinateZuPruefendeZelle++
-        };
-        X_KoordinateZuPruefendeZelle++
-        console.log("spalteGeprüft");
-    };
+    prüfenVonZelen(2, 2);
 });
-
-
-
 
 
 function prüfenVonZelen(x, y){
@@ -71,12 +58,9 @@ function prüfenVonZelen(x, y){
         lebendigeZellenAngrenzend--
     }
     angrenzendeZellenPrüfen(x, y);
-    if (x > 0){
-        angrenzendeZellenPrüfen(x-1, y);
-    } 
-    if (x < aktionsFlaecheBreite_X-1){
+    angrenzendeZellenPrüfen(x-1, y);
     angrenzendeZellenPrüfen(x+1, y);
-    }
+
 
     if (lebendigeZellenAngrenzend == 2 || lebendigeZellenAngrenzend == 3){
         zuPruefendeZelle.style.backgroundColor = "yellow"; 
