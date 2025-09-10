@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
         for (let x = 0; x < aktionsFlaecheBreite_X; x++){
             const zelle = document.createElement("div");
             zelle.classList.add("zelleTod");
-            zelle.id = ("("+y+"/"+x+")");
+            zelle.id = (`(${y}/${x})`);
             const zellGroesse = (aktionsFlaecheBreiteInPixel / aktionsFlaecheBreite_X);
             zelle.style.width = zellGroesse + "px";
             zelle.style.height = zellGroesse + "px";
@@ -45,46 +45,51 @@ document.addEventListener("click", function(event){
 
 ///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen
 const startButton = document.getElementById("startButton");
+let lebendigeZellenAngrenzend = 0;
+let arrayFürNeueAktionsFlaeche = [];
+
+
 startButton.addEventListener("click", ()=> {
-    prüfenVonZelen(2, 2);
+    
+    let X_KoordinateZuPruefendeZelle = 0;
+    while (X_KoordinateZuPruefendeZelle != aktionsFlaecheBreite_X){
+        let Y_KoordinateZuPruefendeZelle = 0;
+        while (Y_KoordinateZuPruefendeZelle != aktionsFlaecheBreite_X){
+            prüfenVonZelen(X_KoordinateZuPruefendeZelle, Y_KoordinateZuPruefendeZelle);
+                if (lebendigeZellenAngrenzend == 2 || lebendigeZellenAngrenzend == 3){
+                    arrayFürNeueAktionsFlaeche.push(1);
+                } else {
+                    arrayFürNeueAktionsFlaeche.push(0);
+                };
+            Y_KoordinateZuPruefendeZelle++
+        };
+        X_KoordinateZuPruefendeZelle++        
+        arrayFürNeueAktionsFlaeche.push("x");
+    };
+    console.log(arrayFürNeueAktionsFlaeche);
 });
 
 
+
+
+
 function prüfenVonZelen(x, y){
-    let lebendigeZellenAngrenzend = 0;
     
-    const zuPruefendeZelle = document.getElementById(`(${x}/${y})`);
-    if (zuPruefendeZelle.classList.contains("zelleLebendig")){
-        lebendigeZellenAngrenzend--
-    }
-    angrenzendeZellenPrüfen(x, y);
-    angrenzendeZellenPrüfen(x-1, y);
+    lebendigeZellenAngrenzend = 0;
+    angrenzendeZellenPrüfen(x-1, y-1);
+    angrenzendeZellenPrüfen(x, y-1);
+    angrenzendeZellenPrüfen(x+1, y-1);
     angrenzendeZellenPrüfen(x+1, y);
-
-
-    if (lebendigeZellenAngrenzend == 2 || lebendigeZellenAngrenzend == 3){
-        zuPruefendeZelle.style.backgroundColor = "yellow"; 
-        zuPruefendeZelle.classList.remove("zelleTod");
-        zuPruefendeZelle.classList.add("zelleLebendig");
-    } else {
-        zuPruefendeZelle.style.backgroundColor = "grey"; 
-        zuPruefendeZelle.classList.remove("zelleLebendig");
-        zuPruefendeZelle.classList.add("zelleTod");
-    }
+    angrenzendeZellenPrüfen(x+1, y+1);
+    angrenzendeZellenPrüfen(x, y+1);
+    angrenzendeZellenPrüfen(x-1, y+1);
+    angrenzendeZellenPrüfen(x-1, y);
 
     function angrenzendeZellenPrüfen(x, y){
-        const mittelZelle = document.getElementById(`(${x}/${y})`);
-        const vorherigeZelle = mittelZelle.previousElementSibling
-	    const folgendeZelle = mittelZelle.nextElementSibling
+        const anvisierteZelle = document.getElementById(`(${x}/${y})`);
 
-        if (mittelZelle && mittelZelle.classList.contains("zelleLebendig")) {
+        if (anvisierteZelle && anvisierteZelle.classList.contains("zelleLebendig")) {
 		    lebendigeZellenAngrenzend++
-	    }
-        if (vorherigeZelle && vorherigeZelle.classList.contains("zelleLebendig")) {
-		    lebendigeZellenAngrenzend++
-	    }
-        if (folgendeZelle && folgendeZelle.classList.contains("zelleLebendig")) {
-		        lebendigeZellenAngrenzend++
 	    }
     };
 }
