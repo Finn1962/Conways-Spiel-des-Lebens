@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////Variablen
 const aktionsFlaeche = document.getElementById("aktionsFlaeche");
 const startButton = document.getElementById("startButton");
-const übernehmenButton = document.getElementById("übernehmenButton");
 let arrayFürNeueAktionsFlaeche = [];
 const aktionsFlaecheBreite_X = 10;
 
@@ -48,7 +47,7 @@ document.addEventListener("click", function(event){
 
 
 ///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen
-startButton.addEventListener("click", ()=> {
+function aktionsFlaechePruefen() {
     arrayFürNeueAktionsFlaeche = [];
 
     for (let x = 0; x != aktionsFlaecheBreite_X; x++){
@@ -85,11 +84,11 @@ startButton.addEventListener("click", ()=> {
         }; 
     };
     arrayFürNeueAktionsFlaeche.push(2); //Ende Marker
-});
+};
 
 
 ///////////////////////////////////////////////////////////////////////////Funktion um neues Array zu übernehmen
-übernehmenButton.addEventListener("click", ()=> {
+function aenderungenÜbernehmen() {
     let x_Kordinate = 0;
     let y_Kordinate = 0;
 
@@ -114,67 +113,11 @@ startButton.addEventListener("click", ()=> {
             x_Kordinate++;
         };
     };
+};
+
+
+///////////////////////////////////////////////////////////////////////////Symulation starten
+startButton.addEventListener("click", function(){
+    aktionsFlaechePruefen();
+    aenderungenÜbernehmen();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-///////////////////////////////////////////////////////////////////////////Funktion um Läuferformation zu erstellen
-function pixelVorMarkieren(zelle){
-    zelle.style.backgroundColor = "yellow"; 
-    zelle.classList.remove("zelleTod");
-    zelle.classList.add("zelleLebendig");
-}
-function laeuferFormation(){
-    let mitte = aktionsFlaecheBreite_X / 2 -1;
-    mitte = Math.ceil(mitte);
-    
-    const eins = document.getElementById(`(${mitte}/${mitte-1})`);
-    pixelVorMarkieren(eins);
-    const zwei = document.getElementById(`(${mitte+1}/${mitte})`);
-    pixelVorMarkieren(zwei);
-    const drei = document.getElementById(`(${mitte+1}/${mitte+1})`);
-    pixelVorMarkieren(drei);
-    const fier = document.getElementById(`(${mitte}/${mitte+1})`);
-    pixelVorMarkieren(fier);
-    const fünf = document.getElementById(`(${mitte-1}/${mitte+1})`);
-    pixelVorMarkieren(fünf);
-}
-*/
