@@ -46,13 +46,24 @@ document.addEventListener("click", function(event){
 });
 
 
-///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen
-function aktionsFlaechePruefen() {
+///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen und Aktualisieren
+startButton.addEventListener("click", async function aktionsFlaechePruefen() {
+    
+    function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     arrayFürNeueAktionsFlaeche = [];
 
     for (let x = 0; x != aktionsFlaecheBreite_X; x++){
        
         for (let y = 0; y != aktionsFlaecheBreite_X; y++){
+            const aktuelleZelle = document.getElementById(`(${x}/${y})`);
+            if (aktuelleZelle) {
+                aktuelleZelle.style.backgroundColor = "green";
+                await new Promise(r => setTimeout(r, 5));
+                aktuelleZelle.style.backgroundColor = "grey";
+            }
             let lebendigeZellenAngrenzend = 0;
             angrenzendeZellenPruefen(x-1, y-1);
             angrenzendeZellenPruefen(x, y-1);
@@ -84,16 +95,13 @@ function aktionsFlaechePruefen() {
         }; 
     };
     arrayFürNeueAktionsFlaeche.push(2); //Ende Marker
-};
 
 
-///////////////////////////////////////////////////////////////////////////Funktion um neues Array zu übernehmen
-function aenderungenÜbernehmen() {
     let x_Kordinate = 0;
     let y_Kordinate = 0;
-
+    
     for (let positionInArray = 0; arrayFürNeueAktionsFlaeche[positionInArray] != 2 ; positionInArray++){
-        
+        console.log("Änderungen übernehmen");
         const zuAktualisierendeZelle = document.getElementById(`(${x_Kordinate}/${y_Kordinate})`);
         
         if (arrayFürNeueAktionsFlaeche[positionInArray] == 1){
@@ -113,11 +121,7 @@ function aenderungenÜbernehmen() {
             x_Kordinate++;
         };
     };
-};
+});
 
 
 ///////////////////////////////////////////////////////////////////////////Symulation starten
-startButton.addEventListener("click", function(){
-    aktionsFlaechePruefen();
-    aenderungenÜbernehmen();
-});
