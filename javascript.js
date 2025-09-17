@@ -6,7 +6,7 @@ const aktionsFlaecheBreite_X = 10;
 
 
 ///////////////////////////////////////////////////////////////////////////Funktion um das Raster zu generrieren
-document.addEventListener("DOMContentLoaded", ()=> {   
+document.addEventListener("DOMContentLoaded", function() {   
     const aktionsFlaecheBreiteInPixel = aktionsFlaeche.offsetWidth;
 
     for (let y = 0; y < aktionsFlaecheBreite_X; y++){
@@ -50,7 +50,7 @@ document.addEventListener("click", function(event){
 startButton.addEventListener("click", async function aktionsFlaechePruefen() {
     
     function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     arrayFürNeueAktionsFlaeche = [];
@@ -61,7 +61,7 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
             const aktuelleZelle = document.getElementById(`(${x}/${y})`);
             if (aktuelleZelle) {
                 aktuelleZelle.style.backgroundColor = "green";
-                await new Promise(r => setTimeout(r, 5));
+                await new Promise(r => setTimeout(r, 30));
                 aktuelleZelle.style.backgroundColor = "grey";
             }
             let lebendigeZellenAngrenzend = 0;
@@ -88,8 +88,10 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
             };
 
             if ((zuPruefendeZelleLebendig && (lebendigeZellenAngrenzend === 2 || lebendigeZellenAngrenzend === 3)) || (!zuPruefendeZelleLebendig && lebendigeZellenAngrenzend === 3)){
+                zuPruefendeZelle.style.backgroundColor = "yellow";
                 arrayFürNeueAktionsFlaeche.push(1);
             } else {
+                zuPruefendeZelle.style.backgroundColor = "grey"; 
                 arrayFürNeueAktionsFlaeche.push(0);
             }; 
         }; 
@@ -101,11 +103,12 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
     let y_Kordinate = 0;
     
     for (let positionInArray = 0; arrayFürNeueAktionsFlaeche[positionInArray] != 2 ; positionInArray++){
-        console.log("Änderungen übernehmen");
         const zuAktualisierendeZelle = document.getElementById(`(${x_Kordinate}/${y_Kordinate})`);
         
+
+ 
         if (arrayFürNeueAktionsFlaeche[positionInArray] == 1){
-            zuAktualisierendeZelle.style.backgroundColor = "yellow"; 
+
             zuAktualisierendeZelle.classList.remove("zelleTod");
             zuAktualisierendeZelle.classList.add("zelleLebendig");
         } else if (arrayFürNeueAktionsFlaeche[positionInArray] == 0){
@@ -122,6 +125,3 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
         };
     };
 });
-
-
-///////////////////////////////////////////////////////////////////////////Symulation starten
