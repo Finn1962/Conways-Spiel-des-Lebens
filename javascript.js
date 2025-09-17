@@ -1,8 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////Variablen
 const aktionsFlaeche = document.getElementById("aktionsFlaeche");
 const startButton = document.getElementById("startButton");
+const stopButton = document.getElementById("stopButton");
+const weiterButton = document.getElementById("weiterButton");
 let arrayFürNeueAktionsFlaeche = [];
 const aktionsFlaecheBreite_X = 10;
+let simulationLäuft = false;
 
 
 ///////////////////////////////////////////////////////////////////////////Funktion um das Raster zu generrieren
@@ -47,7 +50,7 @@ document.addEventListener("click", function(event){
 
 
 ///////////////////////////////////////////////////////////////////////////Funktion um Aktionsfläche zu Prüfen und Aktualisieren
-startButton.addEventListener("click", async function aktionsFlaechePruefen() {
+async function FlaechePruefenUndAendern() {
     
     function sleep(ms) {
        return new Promise(resolve => setTimeout(resolve, ms));
@@ -60,8 +63,8 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
         for (let y = 0; y != aktionsFlaecheBreite_X; y++){
             const aktuelleZelle = document.getElementById(`(${x}/${y})`);
             if (aktuelleZelle) {
-                aktuelleZelle.style.backgroundColor = "green";
-                await new Promise(r => setTimeout(r, 30));
+                aktuelleZelle.style.backgroundColor = "rgba(203, 203, 203, 1)";
+                await new Promise(r => setTimeout(r, 10));
                 aktuelleZelle.style.backgroundColor = "grey";
             }
             let lebendigeZellenAngrenzend = 0;
@@ -104,9 +107,7 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
     
     for (let positionInArray = 0; arrayFürNeueAktionsFlaeche[positionInArray] != 2 ; positionInArray++){
         const zuAktualisierendeZelle = document.getElementById(`(${x_Kordinate}/${y_Kordinate})`);
-        
-
- 
+         
         if (arrayFürNeueAktionsFlaeche[positionInArray] == 1){
 
             zuAktualisierendeZelle.classList.remove("zelleTod");
@@ -124,4 +125,29 @@ startButton.addEventListener("click", async function aktionsFlaechePruefen() {
             x_Kordinate++;
         };
     };
+}
+
+
+///////////////////////////////////////////////////////////////////////////Funktion Für Start & Stop Button
+startButton.addEventListener("click", async function(){
+    let geklickt = false;
+    stopButton.addEventListener("click",()=> geklickt=true);
+    while (!geklickt) {
+        if (!simulationLäuft){
+            simulationLäuft = true;
+            await FlaechePruefenUndAendern();
+            simulationLäuft = false;
+        }
+        await new Promise(resolve => setTimeout(resolve, 16));
+    };
+});
+
+
+///////////////////////////////////////////////////////////////////////////Funktion Für weiter Button
+weiterButton.addEventListener("click", async function(){
+    if (!simulationLäuft){
+        simulationLäuft = true;
+        await FlaechePruefenUndAendern();
+        simulationLäuft = false;
+    }
 });

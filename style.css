@@ -13,3 +13,16 @@
     font-size: 5em;
     user-select: none;
 }
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.button{
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+}
